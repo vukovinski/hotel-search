@@ -9,16 +9,26 @@
             _repository = repository;
         }
 
-        public List<Hotel> GetHotels(Location location)
+        public List<HotelWithDistance> GetHotels(Location location, int page = 0, int pageSize = 100)
         {
             return _repository
                 .GetAll()
-                .OrderBy(hotel =>
+                .Skip(page * pageSize).Take(pageSize)
+                .Select(hotel =>
                 {
-                    return LocationDistance.CalculateMeters(
-                        location.Latitude, location.Longitude,
-                        double.Parse(hotel.LocationLatitude), double.Parse(hotel.LocationLongitude));
+                    return new HotelWithDistance
+                    {
+                        Id = hotel.Id,
+                        Name = hotel.Name,
+                        Price = hotel.Price,
+                        LocationLatitude = hotel.LocationLatitude,
+                        LocationLongitude = hotel.LocationLongitude,
+                        Distance = LocationDistance.CalculateMeters(
+                            location.Latitude, location.Longitude,
+                            double.Parse(hotel.LocationLatitude), double.Parse(hotel.LocationLongitude))
+                    };
                 })
+                .OrderBy(hotelWithDistance => hotelWithDistance.Distance)
                 .ThenBy(hotel => hotel.Price)
                 .ToList();
         }

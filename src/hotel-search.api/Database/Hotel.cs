@@ -8,3 +8,8 @@ public class Hotel
     public string LocationLatitude { get; set; }
     public string LocationLongitude { get; set; }
 }
+
+public class HotelWithDistance : Hotel
+{
+    public double Distance { get; set; }
+}
