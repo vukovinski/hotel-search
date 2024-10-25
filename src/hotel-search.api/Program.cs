@@ -5,6 +5,8 @@ var builder = WebApplication
     .AddHotelSearchRepository();
 
 builder!.Services.AddScoped<HotelSearchService>();
+builder.Services.AddHealthChecks();
+builder.Services.AddControllers();
 
 var app = builder.Build();
 
