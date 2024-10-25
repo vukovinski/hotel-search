@@ -23,7 +23,7 @@
                         Price = hotel.Price,
                         LocationLatitude = hotel.LocationLatitude,
                         LocationLongitude = hotel.LocationLongitude,
-                        Distance = LocationDistance.CalculateMeters(
+                        Distance = LocationDistance.CalculateKilometers(
                             location.Latitude, location.Longitude,
                             double.Parse(hotel.LocationLatitude), double.Parse(hotel.LocationLongitude))
                     };
@@ -52,7 +52,7 @@
 
         public static double CalculateMeters(double lat1, double lon1, double lat2, double lon2)
         {
-            return CalculateKilometers(lat1, lon1, lat2, lon2) / 1000;
+            return CalculateKilometers(lat1, lon1, lat2, lon2) * 1000;
         }
     }
 }
