@@ -1,7 +1,9 @@
 using hotel_search.api;
 
-var builder = WebApplication
+var builder =
+    WebApplication
     .CreateBuilder(args)
+    .AddJwtAuthentication()
     .AddHotelSearchRepository();
 
 builder!.Services.AddScoped<HotelSearchService>();
@@ -10,6 +12,8 @@ builder.Services.AddControllers();
 
 var app = builder.Build();
 
-app.MapHealthChecks("/health-check");
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllers();
+app.MapHealthChecks("/health-check");
 app.Run();
