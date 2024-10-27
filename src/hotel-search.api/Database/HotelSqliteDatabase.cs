@@ -95,6 +95,15 @@ public sealed class HotelSqliteDatabase : IHotelSearchRepository, IDisposable
         command.ExecuteNonQuery();
     }
 
+    public int GetNextId()
+    {
+        using var command = _connection.CreateCommand();
+        command.CommandText = @"
+            SELECT MAX(id) AS max_id FROM Hotels;
+        ";
+        return (int)command.ExecuteScalar()! + 1;
+    }
+
     public void CreateTables()
     {
         using var command = _connection.CreateCommand();

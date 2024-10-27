@@ -2,6 +2,7 @@
 {
     public interface IHotelSearchRepository : IDisposable
     {
+        public int GetNextId();
         public List<Hotel> GetAll();
         public Hotel GetById(int id);
 
