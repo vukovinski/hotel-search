@@ -13,7 +13,6 @@
         {
             return _repository
                 .GetAll()
-                .Skip(page * pageSize).Take(pageSize)
                 .Select(hotel =>
                 {
                     return new HotelWithDistance
@@ -30,6 +29,7 @@
                 })
                 .OrderBy(hotelWithDistance => hotelWithDistance.Distance)
                 .ThenBy(hotel => hotel.Price)
+                .Skip(page * pageSize).Take(pageSize)
                 .ToList();
         }
     }
