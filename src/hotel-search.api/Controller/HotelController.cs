@@ -42,6 +42,12 @@ namespace hotel_search.api
             });
         }
 
+        [HttpPut]
+        public void Update([FromBody] Hotel hotel)
+        {
+            _hotels.UpdateHotel(hotel);
+        }
+
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
