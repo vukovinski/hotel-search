@@ -64,7 +64,7 @@ namespace hotel_search.api
         public ActionResult Delete(int id)
         {
             var success = _hotels.DeleteHotel(new Hotel { Id = id });
-            if (success) _logger.LogInformation("Deleted hotel");
+            if (success) _logger.LogInformation("Deleted hotel.");
             return success ? Ok() : BadRequest();
         }
     }
