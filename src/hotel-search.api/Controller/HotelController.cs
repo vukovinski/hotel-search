@@ -41,7 +41,7 @@ namespace hotel_search.api
                 LocationLatitude = hotel.Latitude,
                 LocationLongitude = hotel.Longitude
             });
-            if (success) _logger.LogInformation("Created new hotel.");
+            if (success) _logger.LogInformation($"Created new hotel. Name: {hotel.Name}");
             return success ? CreatedAtAction("Get", hotelId) : BadRequest();
         }
 
@@ -56,7 +56,7 @@ namespace hotel_search.api
                 LocationLatitude = hotel.Latitude,
                 LocationLongitude = hotel.Longitude
             });
-            if (success) _logger.LogInformation("Updated hotel.");
+            if (success) _logger.LogInformation($"Updated hotel. Name: {hotel.Name}");
             return success ? Ok() : BadRequest();
         }
 
@@ -64,7 +64,7 @@ namespace hotel_search.api
         public ActionResult Delete(int id)
         {
             var success = _hotels.DeleteHotel(new Hotel { Id = id });
-            if (success) _logger.LogInformation("Deleted hotel.");
+            if (success) _logger.LogInformation($"Deleted hotel. Id: {id}");
             return success ? Ok() : BadRequest();
         }
     }
