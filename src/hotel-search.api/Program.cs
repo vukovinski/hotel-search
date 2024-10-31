@@ -4,7 +4,7 @@ var builder =
     WebApplication
     .CreateBuilder(args)
     .AddJwtAuthentication()
-    .AddHotelSearchRepository();
+    .AddHotelSearchRepository(seedTestHotelData: true);
 
 builder!.Services.AddScoped<HotelSearchService>();
 builder.Services.AddHealthChecks();

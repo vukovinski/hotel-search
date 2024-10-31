@@ -29,14 +29,14 @@ namespace hotel_search.api
             return builder;
         }
 
-        public static WebApplicationBuilder? AddHotelSearchRepository(this WebApplicationBuilder builder)
+        public static WebApplicationBuilder? AddHotelSearchRepository(this WebApplicationBuilder builder, bool seedTestHotelData)
         {
             builder.Services.AddSingleton(typeof(IHotelSearchRepository), serviceProvider => {
                 var config = serviceProvider.GetService<IConfiguration>();
                 var connectionString = config!.GetConnectionString("Primary");
                 var repository = new HotelSqliteDatabase(connectionString!);
                 repository.CreateTables();
-                SeedTables(repository);
+                if (seedTestHotelData) SeedTables(repository);
                 return repository;
             });
             return builder;
