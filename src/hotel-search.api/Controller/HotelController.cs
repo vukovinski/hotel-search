@@ -9,10 +9,12 @@ namespace hotel_search.api
     public class HotelController : ControllerBase
     {
         private readonly IHotelSearchRepository _hotels;
+        private readonly ILogger<HotelController> _logger;
 
-        public HotelController(IHotelSearchRepository hotels)
+        public HotelController(ILogger<HotelController> logger, IHotelSearchRepository hotels)
         {
             _hotels = hotels;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -39,6 +41,7 @@ namespace hotel_search.api
                 LocationLatitude = hotel.Latitude,
                 LocationLongitude = hotel.Longitude
             });
+            if (success) _logger.LogInformation("Created new hotel.");
             return success ? CreatedAtAction("Get", hotelId) : BadRequest();
         }
 
@@ -53,13 +56,16 @@ namespace hotel_search.api
                 LocationLatitude = hotel.Latitude,
                 LocationLongitude = hotel.Longitude
             });
+            if (success) _logger.LogInformation("Updated hotel.");
             return success ? Ok() : BadRequest();
         }
 
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-            return _hotels.DeleteHotel(new Hotel { Id = id }) ? Ok() : BadRequest();
+            var success = _hotels.DeleteHotel(new Hotel { Id = id });
+            if (success) _logger.LogInformation("Deleted hotel");
+            return success ? Ok() : BadRequest();
         }
     }
 
