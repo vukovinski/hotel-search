@@ -6,8 +6,8 @@
         public List<Hotel> GetAll();
         public Hotel GetById(int id);
 
-        public void DeleteHotel(Hotel hotel);
-        public void InsertHotel(Hotel hotel);
-        public void UpdateHotel(Hotel hotel);
+        public bool DeleteHotel(Hotel hotel);
+        public bool InsertHotel(Hotel hotel);
+        public bool UpdateHotel(Hotel hotel);
     }
 }

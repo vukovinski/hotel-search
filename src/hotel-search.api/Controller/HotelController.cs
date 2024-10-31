@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace hotel_search.api
 {
     [Route("api/hotels")]
@@ -30,32 +28,42 @@ namespace hotel_search.api
         }
 
         [HttpPost]
-        public void Post([FromBody] CreateHotel hotel)
+        public ActionResult Post([FromBody] HotelDto hotel)
         {
-            _hotels.InsertHotel(new Hotel
+            var hotelId = _hotels.GetNextId();
+            var success = _hotels.InsertHotel(new Hotel
             {
-                Id = _hotels.GetNextId(),
+                Id = hotelId,
                 Name = hotel.Name,
                 Price = hotel.Price,
                 LocationLatitude = hotel.Latitude,
                 LocationLongitude = hotel.Longitude
             });
+            return success ? CreatedAtAction("Get", hotelId) : BadRequest();
         }
 
-        [HttpPut]
-        public void Update([FromBody] Hotel hotel)
+        [HttpPost("{id}")]
+        public ActionResult Update(int id, [FromBody] HotelDto hotel)
         {
-            _hotels.UpdateHotel(hotel);
+            var success = _hotels.UpdateHotel(new Hotel
+            {
+                Id = id,
+                Name = hotel.Name,
+                Price = hotel.Price,
+                LocationLatitude = hotel.Latitude,
+                LocationLongitude = hotel.Longitude
+            });
+            return success ? Ok() : BadRequest();
         }
 
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public ActionResult Delete(int id)
         {
-            _hotels.DeleteHotel(new Hotel { Id = id });
+            return _hotels.DeleteHotel(new Hotel { Id = id }) ? Ok() : BadRequest();
         }
     }
 
-    public class CreateHotel
+    public class HotelDto
     {
         public string Name { get; set; }
         public decimal Price { get; set; }

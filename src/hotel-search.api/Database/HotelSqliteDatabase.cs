@@ -59,17 +59,17 @@ public sealed class HotelSqliteDatabase : IHotelSearchRepository, IDisposable
         return hotel;
     }
 
-    public void DeleteHotel(Hotel hotel)
+    public bool DeleteHotel(Hotel hotel)
     {
         using var command = _connection.CreateCommand();
         command.CommandText =
             @$"
                 DELETE FROM Hotels WHERE id = {hotel.Id}
             ";
-        command.ExecuteNonQuery();
+        return command.ExecuteNonQuery() == 1;
     }
 
-    public void InsertHotel(Hotel hotel)
+    public bool InsertHotel(Hotel hotel)
     {
         using var command = _connection.CreateCommand();
         command.CommandText =
@@ -77,10 +77,10 @@ public sealed class HotelSqliteDatabase : IHotelSearchRepository, IDisposable
                 INSERT INTO Hotels (id, name, price, locationLat, locationLon)
                 VALUES ({hotel.Id}, '{hotel.Name}', '{hotel.Price.ToString()}', '{hotel.LocationLatitude}', '{hotel.LocationLongitude.ToString()}')
             ";
-        command.ExecuteNonQuery();
+        return command.ExecuteNonQuery() == 1;
     }
 
-    public void UpdateHotel(Hotel hotel)
+    public bool UpdateHotel(Hotel hotel)
     {
         using var command = _connection.CreateCommand();
         command.CommandText =
@@ -92,7 +92,7 @@ public sealed class HotelSqliteDatabase : IHotelSearchRepository, IDisposable
                     locationLon = '{hotel.LocationLongitude}'
                 WHERE id = {hotel.Id}
             ";
-        command.ExecuteNonQuery();
+        return command.ExecuteNonQuery() == 1;
     }
 
     public int GetNextId()
