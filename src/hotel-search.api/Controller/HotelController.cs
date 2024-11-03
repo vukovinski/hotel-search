@@ -30,15 +30,28 @@ namespace hotel_search.api
         }
 
         [HttpPost]
-        public void Post([FromBody] CreateHotel hotel)
+        public void Post([FromBody] HotelDto hotel)
         {
             _hotels.InsertHotel(new Hotel
             {
                 Id = _hotels.GetNextId(),
                 Name = hotel.Name,
                 Price = hotel.Price,
-                LocationLatitude = hotel.Latitude,
-                LocationLongitude = hotel.Longitude
+                LocationLatitude = hotel.Lat,
+                LocationLongitude = hotel.Lon
+            });
+        }
+
+        [HttpPost("{id}")]
+        public void Update(int id, [FromBody] HotelDto hotel)
+        {
+            _hotels.UpdateHotel(new Hotel
+            {
+                Id = id,
+                Name = hotel.Name,
+                Price = hotel.Price,
+                LocationLatitude = hotel.Lat,
+                LocationLongitude = hotel.Lon
             });
         }
 
@@ -49,11 +62,11 @@ namespace hotel_search.api
         }
     }
 
-    public class CreateHotel
+    public class HotelDto
     {
         public string Name { get; set; }
         public decimal Price { get; set; }
-        public string Latitude { get; set; }
-        public string Longitude { get; set; }
+        public string Lat { get; set; }
+        public string Lon { get; set; }
     }
 }
