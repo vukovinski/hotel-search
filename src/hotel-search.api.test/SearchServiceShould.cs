@@ -6,7 +6,7 @@ public class SearchServiceShould
     public void ReturnCorrectOrder()
     {
 
-        var repository = new HotelSqliteDatabase("");
+        var repository = new HotelSqliteDatabase("Data Source=HotelSearch;Mode=Memory;");
         var searchService = new HotelSearchService(repository); 
         var location = new Location { Latitude = 50, Longitude = 15 };
 

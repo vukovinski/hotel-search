@@ -5,7 +5,7 @@ public class SqliteRepositoryShould
     [Fact]
     public void ContainItemAfterInsert()
     {
-        using var repository = new HotelSqliteDatabase("Data Source=HotelSearch;Mode=Memory;Cache=Shared");
+        using var repository = new HotelSqliteDatabase("Data Source=HotelSearch;Mode=Memory;");
         repository.CreateTables();
 
         repository.InsertHotel(new Hotel { Id = 1, Name = "Sherwood", Price = 55m, LocationLatitude = "54", LocationLongitude = "31" });
@@ -19,7 +19,7 @@ public class SqliteRepositoryShould
     [Fact]
     public void NotContainItemAfterDelete()
     {
-        using var repository = new HotelSqliteDatabase("Data Source=HotelSearch;Mode=Memory;Cache=Shared");
+        using var repository = new HotelSqliteDatabase("Data Source=HotelSearch;Mode=Memory;");
         repository.CreateTables();
 
         repository.InsertHotel(new Hotel { Id = 1, Name = "Sherwood", Price = 55m, LocationLatitude = "54", LocationLongitude = "31" });
